@@ -1,0 +1,51 @@
+package practicum.sprint_1;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class J {
+
+//    private static List<Integer> factorize(int n) {
+//        List<Boolean>flags = new ArrayList<>();
+//
+//        List<Integer> result = new ArrayList<>();
+//        flags.add(0, false);
+//        flags.put(1, false);
+//        int total = n;
+//        for (int i = 2; i <= total; i++) {
+//            if (flags.getOrDefault(i, true)) {
+//                for (int j = i * i; j <= total && j > 0; j += i) {
+//                    flags.put(j, false);
+//                }
+//                while (total % i == 0) {
+//                    result.add(i);
+//                    total = total / i;
+//                }
+//                if (total == 1) break;
+//            }
+//        }
+//        return result;
+//    }
+
+//    public static void main(String[] args) throws IOException {
+//        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
+//            int n = readInt(reader);
+//            List<Integer> factorization = factorize(n);
+//            for (int elem : factorization) {
+//                writer.write(elem + " ");
+//            }
+//        }
+//    }
+
+
+    private static int readInt(BufferedReader reader) throws IOException {
+        return Integer.parseInt(reader.readLine());
+    }
+}
