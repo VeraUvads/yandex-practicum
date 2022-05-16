@@ -77,7 +77,6 @@ public class SearchInBrokenList {
 
             int result = brokenSearch(list, k);
             System.out.println(result);
-            System.out.println(69 == result);
         }
     }
 
