@@ -70,7 +70,7 @@ public class SearchInBrokenList {
     }
 
     public static void main(String[] args) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        try (final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             final int n = Integer.parseInt(reader.readLine());
             final int k = Integer.parseInt(reader.readLine());
             int[] list = getInputArray(reader, n);
