@@ -26,8 +26,6 @@ public class Competition {
             } else {
                 sum++;
             }
-            System.out.println("sum= " + sum);
-//            System.out.println("sum= " + sum + "\n i= " + i + "; ");
             if (map.containsKey(sum)) {
                 int tempMaxLength = i - map.get(sum);
                 if (tempMaxLength > maxLength) {
@@ -35,7 +33,6 @@ public class Competition {
                 }
             } else {
                 map.put(sum, i);
-                System.out.println(sum + ":" + i + " ");
             }
             if (sum == 0) {
                 if (maxLength < i) {
@@ -43,9 +40,6 @@ public class Competition {
                 }
             }
         }
-//        for (int key : map.keySet()) {
-//            System.out.print(key + ":" + map.get(key) + " ");
-//        }
 
         return maxLength;
     }
