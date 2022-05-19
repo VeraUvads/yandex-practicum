@@ -20,13 +20,7 @@ public class PolynomialHash {
     private static long hash(int a, int m, String string) {
         long hash = 0;
         int stringLength = string.length();
-        int n = 0;
         long pow = 1;
-//        for (int i = 0; i < stringLength; i++) {
-//            long n = stringLength - i - 1;
-//            long pow = (long) Math.pow(a, n);
-//            hash = (hash + pow * ((long) string.charAt(i))) % m;
-//        }
         for (int i = stringLength - 1; i >= 0; i--) {
             long s = string.charAt(i);
             hash += (pow * s) % m;
