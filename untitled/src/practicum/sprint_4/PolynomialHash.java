@@ -12,16 +12,25 @@ public class PolynomialHash {
             int a = readInt(reader);
             int m = readInt(reader);
             String string = reader.readLine();
-            int result = hash(a, m, string);
+            long result = hash(a, m, string);
             System.out.println(result);
         }
     }
 
-    private static int hash(int a, int m, String string) {
-        int hash = 0;
+    private static long hash(int a, int m, String string) {
+        long hash = 0;
         int stringLength = string.length();
-        for (int i = 0; i < stringLength; i++) {
-            hash += string.charAt(i) * (Math.pow(a, stringLength - i - 1));
+        int n = 0;
+        long pow = 1;
+//        for (int i = 0; i < stringLength; i++) {
+//            long n = stringLength - i - 1;
+//            long pow = (long) Math.pow(a, n);
+//            hash = (hash + pow * ((long) string.charAt(i))) % m;
+//        }
+        for (int i = stringLength - 1; i >= 0; i--) {
+            long s = string.charAt(i);
+            hash += (pow * s) % m;
+            pow = pow * a % m;
         }
 
         return hash % m;
