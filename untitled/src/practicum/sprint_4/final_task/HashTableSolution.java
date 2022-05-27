@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.Objects;
 
 /*
-* https://contest.yandex.ru/contest/24414/run-report/68629112/
-*
+ * https://contest.yandex.ru/contest/24414/run-report/68629112/
+ *
  * -- ПРИНЦИП РАБОТЫ --
  *
  * Задача: реализовать хэш таблицу и разрешать коллизии с помощью метода цепочек или метода открытой адресации.
@@ -42,7 +42,7 @@ import java.util.Objects;
  *-- ПРОСТРАНСТВЕННАЯ СЛОЖНОСТЬ --
  * Память затрачиваемая на реализацию хэш таблицы составляет O(n), поскольку мы выделяем память только под размер элементов, и не более.
  *
-* */
+ * */
 
 public class HashTableSolution {
     private static final String GET = "get";
@@ -51,7 +51,7 @@ public class HashTableSolution {
 
     public static void main(String[] args) throws IOException {
         try (final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
+             final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
             final int commandsCount = readInt(reader);
             final HashTable hashTable = new HashTable(commandsCount);
             for (int i = 0; i < commandsCount; i++) {
@@ -59,7 +59,7 @@ public class HashTableSolution {
                 final String command = line[0];
                 final String key = line[1];
                 if (Objects.equals(command, GET)) {
-                    String result = hashTable.get(key);
+                    final String result = hashTable.get(key);
                     writer.write(result + "\n");
                 }
                 if (Objects.equals(command, PUT)) {
@@ -67,7 +67,7 @@ public class HashTableSolution {
                     hashTable.put(key, value);
                 }
                 if (Objects.equals(command, DELETE)) {
-                    String deletedItem = hashTable.delete(key);
+                    final String deletedItem = hashTable.delete(key);
                     writer.write(deletedItem + "\n");
                 }
             }
@@ -107,7 +107,7 @@ public class HashTableSolution {
         }
 
         public String get(String key) {
-            int index = getIndex(key);
+            final int index = getIndex(key);
             return getValueByIndex(index);
         }
 
@@ -130,7 +130,7 @@ public class HashTableSolution {
         }
 
         private String getValueByIndex(int index) {
-            if (index == NOT_FOUND_VALUE){
+            if (index == NOT_FOUND_VALUE) {
                 return NONE;
             } else {
                 return list[index].value;
@@ -138,8 +138,8 @@ public class HashTableSolution {
         }
 
         public String delete(String key) {
-            int index = getIndex(key);
-            String value = getValueByIndex(index);
+            final int index = getIndex(key);
+            final String value = getValueByIndex(index);
             if (index != NOT_FOUND_VALUE) {
                 list[index].setDeleted();
             }
