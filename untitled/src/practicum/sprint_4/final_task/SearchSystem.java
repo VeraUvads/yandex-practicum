@@ -60,7 +60,7 @@ import java.util.*;
 
 
 public class SearchSystem {
-    final static HashMap<String, HashMap<Integer, Integer>> filesWordList = new HashMap<>();
+    final static Map<String, Map<Integer, Integer>> filesWordList = new HashMap<>();
     private static final int BORDER_STEP = 1;
     private static final int FIRST_MATCH_VALUE = 1;
     private static final int MAX_VALUE = 5;
@@ -78,7 +78,7 @@ public class SearchSystem {
             final int requestCount = readInt(reader);
             for (int requestNumber = FIRST_POSITION; requestNumber < requestCount; requestNumber++) {
                 final Set<String> wordsInRequest = new HashSet<>(Arrays.asList(reader.readLine().split(" ")));
-                final HashMap<Integer, Integer> matches = findMatchAmount(wordsInRequest);
+                final Map<Integer, Integer> matches = findMatchAmount(wordsInRequest);
                 sortAndPrintResult(matches, writer);
             }
         }
@@ -89,8 +89,8 @@ public class SearchSystem {
     }
 
     private static void fillFilesMap(String[] words, int fileNumber) {
-        for (String word : words) {
-            final HashMap<Integer, Integer> map;
+        for (final String word : words) {
+            final Map<Integer, Integer> map;
             if (filesWordList.containsKey(word)) {
                 map = filesWordList.get(word);
             } else {
@@ -105,10 +105,10 @@ public class SearchSystem {
         }
     }
 
-    private static HashMap<Integer, Integer> findMatchAmount(Set<String> wordsInRequest) {
-        final HashMap<Integer, Integer> counter = new HashMap<>();
+    private static Map<Integer, Integer> findMatchAmount(Set<String> wordsInRequest) {
+        final Map<Integer, Integer> counter = new HashMap<>();
         for (final String word : wordsInRequest) {
-            final HashMap<Integer, Integer> map = filesWordList.get(word);
+            final Map<Integer, Integer> map = filesWordList.get(word);
             if (map == null) {
                 continue;
             }
@@ -123,7 +123,7 @@ public class SearchSystem {
         return counter;
     }
 
-    private static void sortAndPrintResult(HashMap<Integer, Integer> counter, BufferedWriter writer) throws IOException {
+    private static void sortAndPrintResult(Map<Integer, Integer> counter, BufferedWriter writer) throws IOException {
         counter.entrySet().stream()
                 .map(entry -> new Node(entry.getKey() + BORDER_STEP, entry.getValue()))
                 .sorted()
