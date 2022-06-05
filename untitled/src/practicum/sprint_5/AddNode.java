@@ -60,10 +60,8 @@ public class AddNode {
         Node node2 = new Node(node1, null, 8);
         Node node3 = new Node(null, node2, 7);
         Node newHead = insert(node3, 6);
-//        assert newHead == node3;
         boolean result = newHead == node3;
         System.out.println(result + "\n");
-//        assert newHead.getLeft().getValue() == 6;
         boolean result2 = newHead.getLeft().getValue() == 6;
         System.out.println(result2 + "\n");
     }
