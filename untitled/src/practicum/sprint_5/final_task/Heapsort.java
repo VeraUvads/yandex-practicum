@@ -1,7 +1,6 @@
 package practicum.sprint_5.final_task;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class Heapsort {
 
@@ -9,8 +8,9 @@ public class Heapsort {
         try (final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
              final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
             final Participant[] participantList = getInputArray(reader);
-            BinaryHeap heap = new BinaryHeap(participantList);
-            for (Participant participant : heap.getSortedHeap()) {
+            BinaryHeap heap = new BinaryHeap();
+            heap.sort(participantList);
+            for (Participant participant : participantList) {
                 writer.write(participant.login + "\n");
             }
         }
@@ -36,39 +36,52 @@ public class Heapsort {
 
 
     static class BinaryHeap {
-        private static ArrayList<Participant> heap;
-        private int size = 0;
 
-        public BinaryHeap(Participant[] participants) {
-            heap = new ArrayList<>();
-            for (Participant participant : participants) {
-                put(participant);
+        private static int size = 0;
+
+        public void sort(Participant[] participants) {
+            size = participants.length;
+            for (int i = participants.length / 2 - 1; i >= 0; i--) {
+                siftDown(participants, i);
+            }
+
+            for (int i = participants.length - 1; i >= 0; i--) {
+                Participant temp = participants[0];
+                participants[0] = participants[i];
+                participants[i] = temp;
+                size = i;
+                siftDown(participants, 0);
+            }
+
+        }
+
+        public static int siftDown(Participant[] heap, int index) {
+            int leftPosition = index * 2 + 1;
+            int rightPosition = leftPosition + 1;
+
+            int positionOfMin = index;
+
+            if (leftPosition < size && heap[positionOfMin].isRatingUpper(heap[leftPosition])) {
+                positionOfMin = leftPosition;
+            }
+
+            if (rightPosition < size && heap[positionOfMin].isRatingUpper(heap[rightPosition])) {
+                positionOfMin = rightPosition;
+            }
+
+            if (positionOfMin != index) {
+                swap(heap, index, positionOfMin);
+                return siftDown(heap, positionOfMin);
+            } else {
+                return index;
             }
         }
 
-        private void put(Participant participant) {
-            size++;
-            heap.add(participant);
-            siftUp(size - 1);
-        }
 
-        public static void siftUp(int index) {
-            if (index == 0) return;
-            int headPosition = (index - 1) / 2;
-            if (heap.get(index).isRatingUpper(heap.get(headPosition))) {
-                swap(headPosition, index);
-                siftUp(headPosition);
-            }
-        }
-
-        private static void swap(int index1, int index2) {
-            final Participant temp = heap.get(index1);
-            heap.set(index1, heap.get(index2));
-            heap.set(index2, temp);
-        }
-
-        public ArrayList<Participant> getSortedHeap() {
-            return heap;
+        private static void swap(Participant[] heap, int index1, int index2) {
+            final Participant temp = heap[index1];
+            heap[index1] = heap[index2];
+            heap[index2] = temp;
         }
     }
 
