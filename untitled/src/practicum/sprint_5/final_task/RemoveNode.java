@@ -1,6 +1,6 @@
 package practicum.sprint_5.final_task;
 
-/*
+/* https://contest.yandex.ru/contest/24810/run-report/69178082/
  *
  * -- ПРИНЦИП РАБОТЫ --
  *
@@ -29,8 +29,7 @@ package practicum.sprint_5.final_task;
  * */
 
 
-
-public class Solution {
+public class RemoveNode {
     public static Node remove(Node root, int key) {
         if (root == null) return null;
 
@@ -46,17 +45,17 @@ public class Solution {
 
     private static Node removeItem(Node root) {
         if (root.getRight() != null && root.getLeft() != null) {
-            Node parent = getMinParent(root.getRight(), root);
+            final Node parent = getMinParent(root.getRight(), root);
             Node node;
-            if (parent.getLeft() != null) {
-                node = parent.getLeft();
-                parent.setLeft(node.getRight());
-            } else {
+            if (parent.getValue() == root.getValue() && parent.getRight() != null) {
                 node = parent.getRight();
                 parent.setRight(node.getRight());
+            } else {
+                node = parent.getLeft();
+                parent.setLeft(node.getRight());
             }
-            node.setLeft(parent.getLeft());
-            node.setRight(parent.getRight());
+            node.setLeft(root.getLeft());
+            node.setRight(root.getRight());
             return node;
         } else if (root.getLeft() != null) {
             return root.getLeft();
@@ -115,21 +114,4 @@ public class Solution {
         }
     }
 
-    private static void test() {
-        Node node1 = new Node(null, null, 2);
-        Node node2 = new Node(node1, null, 3);
-        Node node3 = new Node(null, node2, 1);
-        Node node4 = new Node(null, null, 6);
-        Node node5 = new Node(node4, null, 8);
-        Node node6 = new Node(node5, null, 10);
-        Node node7 = new Node(node3, node6, 5);
-        Node newHead = remove(node7, 10);
-        System.out.println(newHead.getValue() == 5);
-        System.out.println(newHead.getRight() == node5);
-        System.out.println(newHead.getRight().getValue() == 8);
-    }
-
-    public static void main(String[] args) {
-        test();
-    }
 }
