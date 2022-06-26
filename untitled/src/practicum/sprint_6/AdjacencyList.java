@@ -52,8 +52,6 @@ public class AdjacencyList {
                 result.put(from, list);
             }
         }
-
     }
-
 
 }
