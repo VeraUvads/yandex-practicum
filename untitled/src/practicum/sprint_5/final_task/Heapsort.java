@@ -28,7 +28,7 @@ package practicum.sprint_5.final_task;
  *
  *-- ПРОСТРАНСТВЕННАЯ СЛОЖНОСТЬ --
  * Тут представлен модифицированный алгоритм пирамидальной сортировки так, что не придётся выделять память под новый массив.
- * Пространственная сложность O(1)
+ * Так как просеивание реализовано рекурсивно пространственная сложность равна O(log(n))
  *
  * */
 
@@ -67,7 +67,7 @@ public class Heapsort {
     }
 
 
-    static class BinaryHeap {
+    static private class BinaryHeap {
 
         private static int size = 0;
 
@@ -87,7 +87,7 @@ public class Heapsort {
 
         }
 
-        public static int siftDown(Participant[] heap, int index) {
+        public void siftDown(Participant[] heap, int index) {
             int leftPosition = index * 2 + 1;
             int rightPosition = leftPosition + 1;
 
@@ -103,24 +103,23 @@ public class Heapsort {
 
             if (positionOfMin != index) {
                 swap(heap, index, positionOfMin);
-                return siftDown(heap, positionOfMin);
-            } else {
-                return index;
+                siftDown(heap, positionOfMin);
             }
         }
 
 
-        private static void swap(Participant[] heap, int index1, int index2) {
+        private void swap(Participant[] heap, int index1, int index2) {
             final Participant temp = heap[index1];
             heap[index1] = heap[index2];
             heap[index2] = temp;
         }
     }
 
-    static class Participant {
-        public String login;
-        public int countOfTasks;
-        public int fine;
+    private static class Participant {
+
+        final public String login;
+        final public int countOfTasks;
+        final public int fine;
 
         public Participant(String login, int countOfTasks, int fine) {
             this.login = login;

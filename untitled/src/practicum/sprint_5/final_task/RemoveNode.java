@@ -31,7 +31,9 @@ package practicum.sprint_5.final_task;
 
 public class RemoveNode {
     public static Node remove(Node root, int key) {
-        if (root == null) return null;
+        if (root == null) {
+            return null;
+        }
 
         if (root.getValue() == key) {
             return removeItem(root);
@@ -65,8 +67,8 @@ public class RemoveNode {
     }
 
     public static Node getMinParent(Node root, Node parent) {
-        Node node;
-        while (true) {
+        Node node = root;
+        while (node != null) {
             node = root.getLeft();
             if (node != null) {
                 parent = root;
@@ -113,5 +115,4 @@ public class RemoveNode {
             this.value = value;
         }
     }
-
 }
