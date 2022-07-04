@@ -20,6 +20,7 @@ public class Attractions {
             fillMatrix(matrix, reader, m);
 
             // может быть хранить также и мапу, и идти по ней
+            // или попробовать помещать в стек элементы из матрицы?
             for (int[] ints : matrix) {
                 printList(ints, writer);
             }
