@@ -18,25 +18,30 @@ import java.util.*;
  * Также, нам не было необходимо проходить все точки. Если цикл сущесвует, определить это можно пройдясь по точкам одного из графа.
  *
  * -- ВРЕМЕННАЯ СЛОЖНОСТЬ --
- * Сложность равна O(E*V) где |E|— количество рёбер в графе, а |V| — количество вершин.
+ * Нужно обойти все вершины и вершины по инцидентным к ним ребрам
+ * При обработке каждая вершина попадает в очередь не более одного раза. И для каждой вершины из очереди проверяются все смежные вершины,
+ * что имеет сложность O(E).
+ * В итоге получим O(V+E), где |E|— количество рёбер в графе, а |V| — количество вершин.
  *
  * -- ПРОСТРАНСТВЕННАЯ СЛОЖНОСТЬ --
  * Нам необходимо хранить все вершины и список смежных для них вершин.
  * Тоесть для каждой вершины V, все вершины являются смежными равны количеству ребер E.
- * И тогда пространственная сложность равна  O(E*V)
+ * В худшем случае если бы все вершины были смежными между собой это бы было V^2, но так как дороги могут идти только в сторону от
+ * меньшего к большему и каждый раз количество возможных смежных вершин будет уменьшаться на 1
+ * то пространственная сложность V*(V/2) где V/2 -количество ребер
  *
  */
 
 public class Railways {
-    private static final int white = 0;
-    private static final int grey = 1;
-    private static final int black = 2;
+    private static final int WHITE = 0;
+    private static final int GREY = 1;
+    private static final int BLACK = 2;
 
     private static final char DIRECT_ROAD = 'R';
     private static final char REVERSED_ROAD = 'B';
 
     private static Set<Integer> notVisitedReversed;
-    static Map<Integer, ArrayList<Integer>> graph = new HashMap<>();
+    static Map<Integer, List<Integer>> graph = new HashMap<>();
     static int[] colors;
 
     public static void main(String[] args) throws IOException {
@@ -56,7 +61,7 @@ public class Railways {
 
     public static boolean hasCycle() {
         for (int vertex : notVisitedReversed) {
-            if (colors[vertex] != black && hasCycle(vertex)) {
+            if (colors[vertex] != BLACK && hasCycle(vertex)) {
                 return true;
             }
         }
@@ -65,7 +70,7 @@ public class Railways {
 
     private static void fillGraph(BufferedReader reader, int cityCount) throws IOException {
         for (int city = 1; city <= cityCount; city++) {
-            final ArrayList<Integer> list = new ArrayList<>();
+            final List<Integer> list = new ArrayList<>();
             graph.put(city, list);
         }
         for (int city = 1; city < cityCount; city++) {
@@ -88,18 +93,18 @@ public class Railways {
         stack.add(start);
         while (!stack.isEmpty()) {
             int vertex = stack.pop();
-            if (colors[vertex] == white) {
-                colors[vertex] = grey;
+            if (colors[vertex] == WHITE) {
+                colors[vertex] = GREY;
                 stack.add(vertex);
                 for (int neighbor : graph.get(vertex)) {
-                    if (colors[neighbor] == white) {
+                    if (colors[neighbor] == WHITE) {
                         stack.add(neighbor);
-                    } else if (colors[neighbor] == grey) {
+                    } else if (colors[neighbor] == GREY) {
                         return true;
                     }
                 }
-            } else if (colors[vertex] == grey) {
-                colors[vertex] = black;
+            } else if (colors[vertex] == GREY) {
+                colors[vertex] = BLACK;
             }
         }
         return false;

@@ -4,7 +4,7 @@ package practicum.sprint_6.final_task;
  *
  * -- ПРИНЦИП РАБОТЫ --
  *
- * Необходимо составить оставное дерево и с минимальным весом.
+ * Необходимо составить оставное дерево и с максимальным весом.
  * Нам не важно с какой вершины мы начнем поскольку все вершины потом окажутся пройденными.
  * Возьмем первую попавшуюся вершину и добавим в список кандидатов все инцидентные ребра.
  * Выберем из них ребро с наибольшим весом, но конечная вершина которого еще не была посещена. Ребро удовлетворяющее условиям войдет в оставной граф.
@@ -23,7 +23,8 @@ package practicum.sprint_6.final_task;
  * -- ПРОСТРАНСТВЕННАЯ СЛОЖНОСТЬ --
  * Необходимая память для работы:
  * массив notVisited - O(V)
- * массив graph - O(V*E)
+ * массив graph - O(V+E) поскольку он представлен в виде списка смежности
+ * https://practicum.yandex.ru/learn/algorithms/courses/7f101a83-9539-4599-b6e8-8645c3f31fad/sprints/33729/topics/45179065-a73b-473d-94d1-24774573f266/lessons/e895a178-7bd3-4549-95a1-c445f8413e83/
  *
  * */
 
@@ -42,7 +43,7 @@ public class ExpensiveNetwork {
 
 
     private static long weight = 0;
-    private static ArrayList<Integer> notVisited;
+    private static List<Integer> notVisited;
     private static Vertex[] graph;
 
     public static void main(String[] args) throws IOException {
@@ -63,11 +64,11 @@ public class ExpensiveNetwork {
 
     private static void bfsGraph() {
         int currentVertexValue = notVisited.remove(FIRST_INDEX);
-        final PriorityQueue<Edge> candidates = new PriorityQueue<>();
+        final Queue<Edge> candidates = new PriorityQueue<>();
         while (!notVisited.isEmpty()) {
             final Vertex currentVertex = graph[currentVertexValue];
             for (final Edge edge : currentVertex.edges) {
-                if (!edge.isIncluded && !graph[edge.to].isVisited) {
+                if (!graph[edge.getTo()].isVisited) {
                     candidates.add(edge);
                 }
             }
@@ -78,13 +79,12 @@ public class ExpensiveNetwork {
             if (currentEdge == null) {
                 break;
             }
-            weight += currentEdge.weight;
-            currentEdge.isIncluded = true;
-            graph[currentEdge.to].isVisited = true;
-            graph[currentEdge.from].isVisited = true;
-            currentVertexValue = currentEdge.to;
+            weight += currentEdge.getWeight();
+            graph[currentEdge.getTo()].isVisited = true;
+            graph[currentEdge.getFrom()].isVisited = true;
+            currentVertexValue = currentEdge.getTo();
             notVisited.remove(Integer.valueOf(currentVertexValue));
-            notVisited.remove(Integer.valueOf(currentEdge.from));
+            notVisited.remove(Integer.valueOf(currentEdge.getFrom()));
         }
 
         if (notVisited.isEmpty()) {
@@ -104,16 +104,15 @@ public class ExpensiveNetwork {
         for (int i = 0; i < edgeCount; i++) {
             final String[] line = reader.readLine().split(" ");
             final Edge edge = new Edge(line);
-            graph[edge.from].addEdge(edge);
-            graph[edge.to].addEdge(edge.reversed());
+            graph[edge.getFrom()].addEdge(edge);
+            graph[edge.getTo()].addEdge(edge.reversed());
         }
     }
 
     static class Edge implements Comparable<Edge> {
-        int from;
-        int to;
-        long weight;
-        boolean isIncluded = false;
+        private final int from;
+        private final int to;
+        private final long weight;
 
         Edge(int from, int to, long weight) {
             this.from = from;
@@ -129,6 +128,18 @@ public class ExpensiveNetwork {
 
         private Edge reversed() {
             return new Edge(to, from, weight);
+        }
+
+        public int getFrom() {
+            return from;
+        }
+
+        public int getTo() {
+            return to;
+        }
+
+        public long getWeight() {
+            return weight;
         }
 
         @Override
