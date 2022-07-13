@@ -19,13 +19,13 @@ public class Exchange {
     }
 
     private static void countResult() {
-        boolean hasStock = false;
         for (int i = 1; i < list.length; i++) {
-            if (!hasStock && list[i - 1] < list[i]) {
+            if (list[i - 1] < list[i]) {
                 profit += list[i] - list[i - 1];
             }
         }
     }
+
     
     private static int[] getInputArray(final BufferedReader reader) throws IOException {
         final int n = Integer.parseInt(reader.readLine());
