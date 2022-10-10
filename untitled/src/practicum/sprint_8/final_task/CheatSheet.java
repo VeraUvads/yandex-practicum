@@ -25,13 +25,13 @@ package practicum.sprint_8.final_task;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashMap;
 
 public class CheatSheet {
 
     private static final String YES = "YES";
     private static final String NO = "NO";
+    private static final char ROOT_SYMBOL = '&';
 
 
     public static void main(String[] args) throws IOException {
@@ -52,7 +52,9 @@ public class CheatSheet {
         dp[0] = true;
         for (int i = 0; i < cheatSheet.length(); i++) {
             Node currentNode = root;
-            if (!dp[i]) continue;
+            if (!dp[i]) {
+                continue;
+            }
             for (int j = i; j <= cheatSheet.length(); j++) {
                 if (currentNode.isTerminal()) {
                     dp[j] = true;
@@ -60,7 +62,7 @@ public class CheatSheet {
                 if (j == cheatSheet.length()) {
                     break;
                 }
-                final String symbol = String.valueOf(cheatSheet.charAt(j));
+                final char symbol = cheatSheet.charAt(j);
                 final Node next = currentNode.getChild(symbol);
                 if (next == null) {
                     break;
@@ -81,11 +83,11 @@ public class CheatSheet {
     }
 
     private static Node createTree(String[] words) {
-        final Node root = new Node("");
+        final Node root = new Node(ROOT_SYMBOL);
         for (final String word : words) {
             Node currentNode = root;
             for (int index = 0; index < word.length(); index++) {
-                final String symbol = String.valueOf(word.charAt(index));
+                final char symbol = word.charAt(index);
                 final Node child = currentNode.getChild(symbol);
                 if (child == null) {
                     final Node newChild = new Node(symbol);
@@ -101,29 +103,24 @@ public class CheatSheet {
     }
 
     private static class Node {
-        private final String value;
-        private final ArrayList<Node> children;
+        private final char value;
+        private final HashMap<Character, Node> children;
         private boolean isTerminal = false;
 
-        public Node(String value) {
+        public Node(char value) {
             this.value = value;
-            this.children = new ArrayList<>();
+            this.children = new HashMap<>();
         }
 
-        private Node getChild(String value) {
-            for (Node node : children) {
-                if (Objects.equals(node.value, value)) {
-                    return node;
-                }
-            }
-            return null;
+        private Node getChild(char value) {
+            return children.getOrDefault(value, null);
         }
 
         private void addChild(Node node) {
             if (!isTerminal && !children.isEmpty()) {
                 setTerminal(true);
             }
-            children.add(node);
+            children.put(node.value, node);
         }
 
         public boolean isTerminal() {

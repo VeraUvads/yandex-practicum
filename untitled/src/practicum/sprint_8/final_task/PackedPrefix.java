@@ -16,7 +16,7 @@ package practicum.sprint_8.final_task;
 * -- ВРЕМЕННАЯ СЛОЖНОСТЬ --
 * При распаковке: O(m)
 * При поиске максимального префикса:
-* Сортировка массива O(log(m)) для каждой строки, сделанная n раз ==  O(log(m)) * O(n), и проход по строке O(m),
+* Сортировка массива O(n(log(m))) всех строк в лексикографмческом порядке, и проход по строке O(m),
 * где n - количество строк, а m - длинна самой длинной строки
 *
 *
@@ -47,11 +47,13 @@ public class PackedPrefix {
 
     static String longestCommonPrefix(String[] array) {
         final int arrayLength = array.length;
-        if (arrayLength == 0)
+        if (arrayLength == 0) {
             return "";
+        }
 
-        if (arrayLength == 1)
+        if (arrayLength == 1) {
             return array[0];
+        }
 
         Arrays.sort(array);
         final int min = array[0].length();
@@ -59,8 +61,9 @@ public class PackedPrefix {
         final String first = array[0], last = array[arrayLength - 1];
 
         int i = 0;
-        while (i < min && first.charAt(i) == last.charAt(i))
+        while (i < min && first.charAt(i) == last.charAt(i)) {
             i++;
+        }
 
         return first.substring(0, i);
     }
